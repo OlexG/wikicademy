@@ -24,7 +24,7 @@ The frontend will render
 - [ ] TODO...
 
 ### Backend
-- [ ] GIT server tracking course JSONs
+- [ ] Interface with Github for tracking course changes
 - [ ] TODO...
 
 
