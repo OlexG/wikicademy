@@ -1,51 +1,42 @@
-# Wikicademy
-Wikicademy is an open source course creaction website. Users are able to browse public courses and contribute to their creaction. Courses will look comparable to other websites like Udemy, Coursera, etc, however with the additional benefit of allowing many different types of resources to be used as course "lessons" (Youtube videos, Github repos, Docs pages, Quizes, etc...). Wikicademy will be able to display these lessons in a uniform way, with a unique view for different lesson types. Our goal is to democratize course creation, with quality courses being created by the general community.
+### Wikicademy
+Wikicademy is an open-source course creation platform. Users can browse public courses and contribute to their creation. Although our courses might seem similar to those found on platforms like Udemy or Coursera, Wikicademy stands out. We offer the unique ability to incorporate a wide range of resources as course "lessons", such as YouTube videos, GitHub repos, Docs pages, quizzes, and more. Wikicademy ensures a consistent and tailored display for these varied lessons, emphasizing an individualized view tailored to each lesson type. Our mission is to democratize the course creation process, fostering quality content produced by the broader community.
 
-## Design Plan
-Each course is composed of a JSON file. 
-The JSON file contains course metadata along with a list of lessons.
-Each lesson is composed of a 
-- title
-- description
-- lesson type
-- lesson content (depends on lesson type)
-The frontend should be able to distinguish between different lesson types and render them accordingly.
+### Design Plan
+Each course on Wikicademy is represented as a JSON file, which encompasses both course metadata and an array of lessons. A typical lesson consists of the following components:
 
-To edit courses uses will not interfact directly with the JSON file. Instead, they will use an editor that is able to adapt for different lesson types. For example, if the user is creating a lesson that is a quiz, the editor should be able to render a quiz editor. 
+- Title
+- Description
+- Lesson Type
+- Lesson Content (varies based on the lesson type)
+The frontend is designed to discern between the diverse lesson types and present them in an appropriate manner.
 
-Wikicademy will also have all the "wiki" features such as a log of all changes made to a course, various user permissions, protected courses, etc.
+Rather than directly interacting with the JSON file, users will employ an intuitive editor tailored to suit various lesson types. For instance, if a user intends to craft a lesson in the form of a quiz, our platform will present a specialized quiz editor for this purpose.
 
-The frontend will render 
-### Frontend
-- [ ] Home page
-- [ ] Course page
-- [ ] Course creation page
-- [ ] Course edit page
-- [ ] TODO...
+Moreover, Wikicademy integrates all quintessential "wiki" features, including a comprehensive log of course modifications, distinct user permissions, protected courses, and more.
 
-### Backend
-- [ ] Interface with Github for tracking course changes
-- [ ] TODO...
+### Frontend Tasks
+ - [ ] Home Page
+ - [ ] Course Page
+ - [ ] Course Creation Page
+ - [ ] Course Edit Page
+ - [ ] (Further tasks to be decided...)
+
+### Backend Tasks
+ - [ ] Integration with GitHub for meticulous tracking of course alterations.
+ (Further tasks to be decided...)
 
 ### Development Setup
-Create a Github repository which will house the course files. You can either create a new one
-or clone the official wikicademycourses repository.
+To kickstart your development, initiate a GitHub repository designated for storing course files. You have the option to either inaugurate a fresh repository or clone the official wikicademycourses repository.
 
-Create a .env file in the root directory with the following variables:
-```
-GITHUB_TOKEN=...
-REPO_NAME=your-repo-name
-OWNER_NAME=your-github-username
-```
-To get the Github token, go to
-Settings -> Developer Settings -> Personal Access Tokens -> Fine-grained tokens 
-Create a token with all permissions to the courses repo. Replace the env file
-with the token you just created.
+Consequently, produce a .env file in your root directory, populated with the subsequent variables:
 
-To start the server, run
+```GITHUB_TOKEN=YOUR_TOKEN_HERE
+REPO_NAME=YOUR_REPO_NAME
+OWNER_NAME=YOUR_GITHUB_USERNAME```
+To procure the required GitHub token, navigate to Settings -> Developer Settings -> Personal Access Tokens -> Fine-grained tokens and generate a token, ensuring it possesses full permissions for the courses repository. Replace the placeholder in the .env file with your newly minted token.
+
+To activate the server, execute:
+
 ```
 deno task start
 ```
-
-
-
