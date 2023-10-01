@@ -30,12 +30,16 @@ To kickstart your development, initiate a GitHub repository designated for stori
 
 Consequently, produce a .env file in your root directory, populated with the subsequent variables:
 
-```GITHUB_TOKEN=YOUR_TOKEN_HERE
+```
+GITHUB_TOKEN=YOUR_TOKEN_HERE
 REPO_NAME=YOUR_REPO_NAME
-OWNER_NAME=YOUR_GITHUB_USERNAME```
+OWNER_NAME=YOUR_GITHUB_USERNAME
+```
 
 To procure the required GitHub token, navigate to Settings -> Developer Settings -> Personal Access Tokens -> Fine-grained tokens and generate a token, ensuring it possesses full permissions for the courses repository. Replace the placeholder in the .env file with your newly minted token.
 
 To activate the server, execute:
 
-```deno task start```
+```
+deno task start
+```
