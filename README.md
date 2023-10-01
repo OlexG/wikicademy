@@ -27,5 +27,25 @@ The frontend will render
 - [ ] Interface with Github for tracking course changes
 - [ ] TODO...
 
+### Development Setup
+Create a Github repository which will house the course files. You can either create a new one
+or clone the official wikicademycourses repository.
+
+Create a .env file in the root directory with the following variables:
+```
+GITHUB_TOKEN=...
+REPO_NAME=your-repo-name
+OWNER_NAME=your-github-username
+```
+To get the Github token, go to
+Settings -> Developer Settings -> Personal Access Tokens -> Fine-grained tokens 
+Create a token with all permissions to the courses repo. Replace the env file
+with the token you just created.
+
+To start the server, run
+```
+deno task start
+```
+
 
 
