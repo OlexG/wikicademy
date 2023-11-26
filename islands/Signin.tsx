@@ -2,12 +2,11 @@ import { useEffect } from "preact/hooks";
 
 export default function Signin({
   redirect,
-  clientId
+  clientId,
 }: {
   redirect: string;
   clientId: string;
 }) {
-  console.log(redirect);
   useEffect(() => {
     const url = new URL(window.location.href);
     if (url.searchParams.get("code")) {
@@ -37,12 +36,18 @@ export default function Signin({
       <h1 className="text-2xl font-light">
         Log in to <span className="text-teal">Wikicademy</span>
       </h1>
-      <button
-        className="mx-auto text-center bg-teal hover:bg-blue-700 text-white py-2 px-4 rounded-sm"
-        onClick={loginWithGoogle}
-      >
-        Login with Google
-      </button>
+      {!clientId || !redirect ? (
+        <div className="animate-pulse w-full h-full text-center">
+          Loading...
+        </div>
+      ) : (
+        <button
+          className="mx-auto text-center bg-teal hover:bg-blue-700 text-white py-2 px-4 rounded-sm"
+          onClick={loginWithGoogle}
+        >
+          Login with Google
+        </button>
+      )}
     </div>
   );
 }
