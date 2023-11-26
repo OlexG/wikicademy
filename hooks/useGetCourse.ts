@@ -9,7 +9,7 @@ export default function useGetCourse(id: string) {
   useEffect(() => {
     setLoading(true);
     const user = JSON.parse(localStorage.getItem("user") || "{}");
-    fetch(`http://localhost:8000/api/courses?id=${id}`, {
+    fetch(`/api/courses?id=${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
