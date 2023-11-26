@@ -1,5 +1,13 @@
+import { useEffect, useState } from "preact/hooks";
+
 export default function Header() {
-  const isLoggedIn = localStorage.getItem("user");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      setIsLoggedIn(true);
+    }
+  }, []);
   const logout = () => {
     localStorage.removeItem("user");
     window.location.href = "/";
