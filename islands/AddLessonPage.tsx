@@ -10,9 +10,10 @@ export default function AddLessonPage({ id }: Props) {
   const [number, setNumber] = useState(1);
   const [type, setType] = useState<LessonType>(LessonType.markdown);
   const { course, loading, setError, error } = useGetCourse(id);
-  console.log(course);
   function createLesson() {
-    const course = JSON.parse(localStorage.getItem("course") || "{}");
+    if (!course) {
+      return;
+    }
     const user = JSON.parse(localStorage.getItem("user") || "{}");
     fetch(`/api/courses?id=${course.id}&type=addLesson`, {
       method: "POST",
