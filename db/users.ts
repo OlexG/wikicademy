@@ -31,7 +31,23 @@ class Users {
     const users = await db.users.findMany({});
     console.log(users);
   }
+
+  async confirmSession(email: string, session: string): Promise<boolean> {
+    const user = await db.users.findFirst({
+      where: { email, session },
+    });
+    return !!user;
+  }
+
+  async getUser(email: string): Promise<User | null> {
+    const user = await db.users.findFirst({
+      where: { email },
+    });
+    if (!user) return null;
+    return { id: user.id, email, session: user.session };
+  }
 }
 
 const users = new Users();
+
 export default users;

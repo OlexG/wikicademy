@@ -35,10 +35,10 @@ export default function Signin() {
   return (
     <div className="w-screen h-full flex flex-col items-center justify-center gap-8">
       <h1 className="text-2xl font-light">
-        Log in to <span className="text-blue-500">Wikicademy</span>
+        Log in to <span className="text-teal">Wikicademy</span>
       </h1>
       <button
-        className="mx-auto text-center bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-sm"
+        className="mx-auto text-center bg-teal hover:bg-blue-700 text-white py-2 px-4 rounded-sm"
         onClick={loginWithGoogle}
       >
         Login with Google

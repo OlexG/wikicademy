@@ -1,4 +1,4 @@
-import { Course } from "../types/course.ts";
+import { Course, Lesson } from "../types/course.ts";
 import { User } from "../types/user.ts";
 
 export interface GitInterface {
@@ -32,8 +32,7 @@ class GitInterfaceImpl implements GitInterface {
           "Authorization": `token ${this.token}`,
         },
       });
-    }
-    else {
+    } else {
       response = await fetch(url, {
         method,
         headers: {
@@ -54,23 +53,48 @@ class GitInterfaceImpl implements GitInterface {
   async updateCourse(course: Course, author: User) {
     const filePath = `${course.id}.json`;
     const url = `${this.baseUrl}/${filePath}`;
+    // First, get the existing file to obtain its SHA
+    let sha: string;
+    try {
+      const getFileResponse = await this.sendRequest(url, "GET", null);
+      sha = getFileResponse.sha;
+    } catch (error) {
+      console.error(`Error fetching the existing course file: ${error}`);
+      throw error; // Re-throw the error to handle it further up the call stack
+    }
 
+    // Proceed with the update
     const encodedContent = unicodeToBase64(JSON.stringify(course));
     const data = {
-      message: `Update course: ${course.name} by ${author.name}`,
+      message: `Update course: ${course.name} by ${author.email}`,
       content: encodedContent,
+      sha, // Include the SHA of the file to be updated
     };
 
-    await this.sendRequest(url, "PUT", data);
+    console.log(data);
+
+    try {
+      await this.sendRequest(url, "PUT", data);
+    } catch (error) {
+      console.error(`Error updating the course: ${error}`);
+      throw error;
+    }
   }
 
   async createCourse(course: Course, author: User) {
     const filePath = `${course.id}.json`;
     const url = `${this.baseUrl}/${filePath}`;
 
+    // Check if course with the same name already exists
+    const courses = await this.getCourses();
+    const courseWithSameName = courses.find((c) => c.name === course.name);
+    if (courseWithSameName) {
+      throw new Error(`Course with name ${course.name} already exists`);
+    }
+
     const encodedContent = unicodeToBase64(JSON.stringify(course));
     const data = {
-      message: `Create course: ${course.name} by ${author.name}`,
+      message: `Create course: ${course.name} by ${author.email}`,
       content: encodedContent,
     };
 
@@ -121,6 +145,16 @@ class GitInterfaceImpl implements GitInterface {
       };
       await this.sendRequest(url, "DELETE", data);
     }
+  }
+
+  async addLesson(lesson: Lesson, author: User, courseId: string, index: number) {
+    const course = await this.getCourse(courseId);
+    if (index < 0 || index > course.lessons.length) {
+      throw new Error("Invalid lesson index");
+    }
+    course.lessons.splice(index, 0, lesson);
+    await this.updateCourse(course, author);
+    return course;
   }
 }
 

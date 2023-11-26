@@ -5,30 +5,46 @@
 import * as $0 from "./routes/_404.tsx";
 import * as $1 from "./routes/_app.tsx";
 import * as $2 from "./routes/api/auth.ts";
-import * as $3 from "./routes/api/joke.ts";
+import * as $3 from "./routes/api/courses.ts";
 import * as $4 from "./routes/courses.tsx";
-import * as $5 from "./routes/index.tsx";
-import * as $6 from "./routes/signin.tsx";
-import * as $$0 from "./islands/Counter.tsx";
-import * as $$1 from "./islands/Courses.tsx";
-import * as $$2 from "./islands/Header.tsx";
-import * as $$3 from "./islands/Signin.tsx";
+import * as $5 from "./routes/courses/[id].tsx";
+import * as $6 from "./routes/courses/[id]/edit.tsx";
+import * as $7 from "./routes/courses/[id]/edit/addLesson.tsx";
+import * as $8 from "./routes/courses/[id]/learn.tsx";
+import * as $9 from "./routes/create.tsx";
+import * as $10 from "./routes/index.tsx";
+import * as $11 from "./routes/signin.tsx";
+import * as $$0 from "./islands/AddLessonPage.tsx";
+import * as $$1 from "./islands/CoursePage.tsx";
+import * as $$2 from "./islands/Courses.tsx";
+import * as $$3 from "./islands/Create.tsx";
+import * as $$4 from "./islands/EditCoursePage.tsx";
+import * as $$5 from "./islands/Header.tsx";
+import * as $$6 from "./islands/Signin.tsx";
 
 const manifest = {
   routes: {
     "./routes/_404.tsx": $0,
     "./routes/_app.tsx": $1,
     "./routes/api/auth.ts": $2,
-    "./routes/api/joke.ts": $3,
+    "./routes/api/courses.ts": $3,
     "./routes/courses.tsx": $4,
-    "./routes/index.tsx": $5,
-    "./routes/signin.tsx": $6,
+    "./routes/courses/[id].tsx": $5,
+    "./routes/courses/[id]/edit.tsx": $6,
+    "./routes/courses/[id]/edit/addLesson.tsx": $7,
+    "./routes/courses/[id]/learn.tsx": $8,
+    "./routes/create.tsx": $9,
+    "./routes/index.tsx": $10,
+    "./routes/signin.tsx": $11,
   },
   islands: {
-    "./islands/Counter.tsx": $$0,
-    "./islands/Courses.tsx": $$1,
-    "./islands/Header.tsx": $$2,
-    "./islands/Signin.tsx": $$3,
+    "./islands/AddLessonPage.tsx": $$0,
+    "./islands/CoursePage.tsx": $$1,
+    "./islands/Courses.tsx": $$2,
+    "./islands/Create.tsx": $$3,
+    "./islands/EditCoursePage.tsx": $$4,
+    "./islands/Header.tsx": $$5,
+    "./islands/Signin.tsx": $$6,
   },
   baseUrl: import.meta.url,
 };

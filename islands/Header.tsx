@@ -16,7 +16,7 @@ export default function Header() {
             </a>
           </li>
           <li>
-            <a href="courses" class="text-dark-charcoal hover:text-teal">
+            <a href="/courses" class="text-dark-charcoal hover:text-teal">
               Courses
             </a>
           </li>
@@ -28,19 +28,19 @@ export default function Header() {
           {isLoggedIn ? (
             <>
               <li>
-                <a href="Create" class="text-dark-charcoal hover:text-teal">
+                <a href="/create" class="text-dark-charcoal hover:text-teal">
                   Create
                 </a>
               </li>
               <li>
-                <button onClick={logout} href="signin" class="text-dark-charcoal hover:text-teal">
+                <button onClick={logout} href="/signin" class="text-dark-charcoal hover:text-teal">
                   Logout
                 </button>
               </li>
             </>
           ) : (
             <li>
-              <a href="signin" class="text-dark-charcoal hover:text-teal">
+              <a href="/signin" class="text-dark-charcoal hover:text-teal">
                 Signin
               </a>
             </li>
