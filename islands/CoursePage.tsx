@@ -24,7 +24,7 @@ export default function CoursePage({ id }: Props) {
             </a>
             <a
               className="bg-teal hover:bg-blue-700 text-white py-2 px-4 rounded-sm"
-              href={`/courses/${course.id}/learn`}
+              href={`/courses/${course.id}/view`}
             >
               Begin Learning
             </a>

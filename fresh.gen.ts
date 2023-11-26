@@ -12,9 +12,11 @@ import * as $6 from "./routes/courses/[id]/edit.tsx";
 import * as $7 from "./routes/courses/[id]/edit/[index].tsx";
 import * as $8 from "./routes/courses/[id]/edit/addLesson.tsx";
 import * as $9 from "./routes/courses/[id]/learn.tsx";
-import * as $10 from "./routes/create.tsx";
-import * as $11 from "./routes/index.tsx";
-import * as $12 from "./routes/signin.tsx";
+import * as $10 from "./routes/courses/[id]/view.tsx";
+import * as $11 from "./routes/courses/[id]/view/[index].tsx";
+import * as $12 from "./routes/create.tsx";
+import * as $13 from "./routes/index.tsx";
+import * as $14 from "./routes/signin.tsx";
 import * as $$0 from "./islands/AddLessonPage.tsx";
 import * as $$1 from "./islands/CoursePage.tsx";
 import * as $$2 from "./islands/Courses.tsx";
@@ -23,6 +25,8 @@ import * as $$4 from "./islands/EditCoursePage.tsx";
 import * as $$5 from "./islands/Editor.tsx";
 import * as $$6 from "./islands/Header.tsx";
 import * as $$7 from "./islands/Signin.tsx";
+import * as $$8 from "./islands/ViewCoursePage.tsx";
+import * as $$9 from "./islands/Viewer.tsx";
 
 const manifest = {
   routes: {
@@ -36,9 +40,11 @@ const manifest = {
     "./routes/courses/[id]/edit/[index].tsx": $7,
     "./routes/courses/[id]/edit/addLesson.tsx": $8,
     "./routes/courses/[id]/learn.tsx": $9,
-    "./routes/create.tsx": $10,
-    "./routes/index.tsx": $11,
-    "./routes/signin.tsx": $12,
+    "./routes/courses/[id]/view.tsx": $10,
+    "./routes/courses/[id]/view/[index].tsx": $11,
+    "./routes/create.tsx": $12,
+    "./routes/index.tsx": $13,
+    "./routes/signin.tsx": $14,
   },
   islands: {
     "./islands/AddLessonPage.tsx": $$0,
@@ -49,6 +55,8 @@ const manifest = {
     "./islands/Editor.tsx": $$5,
     "./islands/Header.tsx": $$6,
     "./islands/Signin.tsx": $$7,
+    "./islands/ViewCoursePage.tsx": $$8,
+    "./islands/Viewer.tsx": $$9,
   },
   baseUrl: import.meta.url,
 };
