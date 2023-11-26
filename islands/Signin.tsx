@@ -7,6 +7,7 @@ export default function Signin({
   redirect: string;
   clientId: string;
 }) {
+  console.log(redirect);
   useEffect(() => {
     const url = new URL(window.location.href);
     if (url.searchParams.get("code")) {
