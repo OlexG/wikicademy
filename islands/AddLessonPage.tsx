@@ -1,5 +1,6 @@
 import { useEffect, useState } from "preact/hooks";
 import { Course, LessonType } from "../types/course.ts";
+import useGetCourse from "../hooks/useGetCourse.ts";
 interface Props {
   id: string;
 }
@@ -7,33 +8,8 @@ interface Props {
 export default function AddLessonPage({ id }: Props) {
   const [title, setTitle] = useState("");
   const [number, setNumber] = useState(1);
-  const [error, setError] = useState(false);
-  const [errorText, setErrorText] = useState("");
   const [type, setType] = useState<LessonType>(LessonType.markdown);
-  const [loading, setLoading] = useState(true);
-  const [course, setCourse] = useState<Course | null>(null);
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
-    console.log(id)
-    fetch(`http://localhost:8000/api/courses?id=${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        email: user.email,
-        session: user.session,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setCourse(data);
-        localStorage.setItem("course", JSON.stringify(data));
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setError(true);
-      });
-  }, []);
+  const { course, loading, setError, error } = useGetCourse(id);
 
   function createLesson() {
     const course = JSON.parse(localStorage.getItem("course") || "{}");
@@ -49,14 +25,10 @@ export default function AddLessonPage({ id }: Props) {
     })
       .then((res) => {
         if (res.status === 400) {
-          setError(true);
-          setErrorText(
-            "Something went wrong. Check your inputs and try again."
-          );
+          setError("Something went wrong. Check your inputs and try again.");
         }
         if (res.status === 401) {
-          setError(true);
-          setErrorText("You are not authorized to create a lesson.");
+          setError("You are not authorized to create a lesson.");
         }
         return res;
       })
@@ -66,7 +38,7 @@ export default function AddLessonPage({ id }: Props) {
       })
       .catch((err) => {
         console.log(err);
-        setError(true);
+        setError("Something went wrong. Check your inputs and try again.");
       });
   }
 
@@ -83,9 +55,11 @@ export default function AddLessonPage({ id }: Props) {
     if (isNaN(number)) {
       return;
     }
+    if (!course?.lessons) {
+      return;
+    }
     if (number > course?.lessons?.length + 1) {
-      setError(true);
-      setErrorText(
+      setError(
         "The lesson number cannot be greater than the number of lessons."
       );
       return;
@@ -103,9 +77,7 @@ export default function AddLessonPage({ id }: Props) {
         <h1 className="text-lg font-light w-80">
           Create a <span className="text-teal">lesson</span>
         </h1>
-        {error && (
-          <div className="text-red-500 font-light w-80">{errorText}</div>
-        )}
+        {error && <div className="text-red-500 font-light w-80">{error}</div>}
         <div className="flex flex-col gap-2 mt-4">
           <input
             className="border border-gray-300 rounded-md p-2"

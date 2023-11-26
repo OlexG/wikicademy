@@ -1,0 +1,14 @@
+Default Lesson Title
+========================
+
+Add something to this lesson 
+
+Big Idea
+-------------------
+
+1. Type in your changes
+
+- **Simple:** Keep the lessons simple. 
+- **Informative:**  Make sure you get your facts right
+- **Short:**  Lessons shoud follow the "one idea per lesson" rule.
+

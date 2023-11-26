@@ -1,35 +1,13 @@
 import { useEffect, useState } from "preact/hooks";
 import { Course } from "../types/course.ts";
+import useGetCourse from "../hooks/useGetCourse.ts";
 
 interface Props {
   id: string;
 }
 
 export default function CoursePage({ id }: Props) {
-  const [loading, setLoading] = useState(true);
-  const [course, setCourse] = useState<Course | null>(null);
-  const [error, setError] = useState(false);
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
-    fetch(`http://localhost:8000/api/courses?id=${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        email: user.email,
-        session: user.session,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setCourse(data);
-        localStorage.setItem("course", JSON.stringify(data));
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setError(true);
-      });
-  }, []);
+  const { loading, course } = useGetCourse(id);
   return (
     <div className="flex flex-col items-center justify-center h-full">
       {loading && <div>Loading...</div>}

@@ -1,0 +1,133 @@
+/* Basic Comprehensive CSS for Markdown Elements */
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: #333;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+h1 { font-size: 2em; }
+h2 { font-size: 1.75em; }
+h3 { font-size: 1.5em; }
+h4 { font-size: 1.25em; }
+h5 { font-size: 1.125em; }
+h6 { font-size: 1em; }
+
+/* Paragraph */
+p {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+/* Links */
+a {
+  color: #0366d6;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Lists */
+ul, ol {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding-left: 40px;
+}
+
+ul ul, ol ol, ul ol, ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Blockquotes */
+blockquote {
+  margin: 1em 0;
+  padding-left: 20px;
+  border-left: 4px solid #ddd;
+}
+
+/* Inline Code */
+code {
+  font-family: monospace;
+  padding: 2px 4px;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+/* Code Blocks */
+pre {
+  padding: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  background-color: #f6f8fa;
+  border-radius: 5px;
+  overflow-x: auto;
+}
+
+pre code {
+  font-family: monospace;
+  padding: 0;
+  background-color: transparent;
+}
+
+/* Horizontal Rule */
+hr {
+  border: 0;
+  height: 1px;
+  background-color: #ddd;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+table th, table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+table th {
+  background-color: #f8f8f8;
+}
+
+/* Utility Classes */
+.container {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+ul, ol {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding-left: 40px;
+}
+
+ul {
+  list-style-type: disc; /* or 'circle' or 'square', depending on preference */
+}
+
+ol {
+  list-style-type: decimal; /* This ensures numbers are shown */
+}
+
+ul ul, ol ol, ul ol, ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}

@@ -1,10 +1,7 @@
-import { useEffect, useState } from "preact/hooks";
-import { Course } from "../types/course.ts";
+import useGetCourse from "../hooks/useGetCourse.ts";
 
 export default function EditCoursePage({ id }: { id: string }) {
-  const [course, setCourse] = useState<Partial<Course>>({});
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const { course, loading, error, setLoading, setError } = useGetCourse(id);
   function affirmLesson(number: number) {
     setLoading(true);
     setLoading(true);
@@ -121,29 +118,7 @@ export default function EditCoursePage({ id }: { id: string }) {
       });
   }
 
-  useEffect(() => {
-    setLoading(true);
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
-    fetch(`http://localhost:8000/api/courses?id=${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        email: user.email,
-        session: user.session,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setCourse(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setError("An error occurred while fetching the course.");
-      });
-  }, []);
-
-  if (loading) {
+  if (!course || loading) {
     return (
       <div className="animate-pulse w-full h-full text-center">Loading...</div>
     );

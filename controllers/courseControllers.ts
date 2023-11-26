@@ -2,6 +2,9 @@ import gitInterface from "../git/interface.ts";
 import { Course, Lesson } from "../types/course.ts";
 import { User } from "../types/user.ts";
 
+// Get the lesson string from defaultLesson.txt stored in the static folder for fresh
+const lessonString = await Deno.readTextFile("./static/defaultLesson.txt");
+
 export async function handlePost(
   req: Request,
   author: User,
@@ -35,7 +38,28 @@ export async function handlePost(
   if (type === "undoRemove") {
     return undoRemove(req, courseId, author);
   }
+  if (type === "editLesson") {
+    return editLesson(req, courseId, author);
+  }
   return new Response("Invalid request method", { status: 405 });
+}
+
+export async function editLesson(
+  req: Request,
+  courseId: string,
+  author: User,
+) {
+  const body = await req.json();
+  if (body.content === undefined || body.number === undefined) {
+    return new Response("Invalid course data", { status: 400 });
+  }
+  const course = await gitInterface.getCourse(courseId);
+  if (!course.lessons[body.number]) {
+    return new Response("Invalid lesson number", { status: 400 });
+  }
+  course.lessons[body.number].content = body.content;
+  await gitInterface.updateCourse(course, author);
+  return new Response(JSON.stringify(course));
 }
 
 export async function affirmLesson(
@@ -60,6 +84,7 @@ export async function affirmLesson(
   return new Response(JSON.stringify(course));
 }
 
+
 export async function removeLesson(
   req: Request,
   courseId: string,
@@ -79,7 +104,7 @@ export async function removeLesson(
   course.lessons[body.number - 1].removes.push(author.id);
   if (
     course.lessons[body.number - 1].removes.length >=
-    course.lessons[body.number - 1].affirms.length
+      course.lessons[body.number - 1].affirms.length
   ) {
     course.lessons.splice(body.number - 1, 1);
   }
@@ -108,7 +133,7 @@ export async function undoAffirm(
   course.lessons[body.number - 1].affirms.splice(index, 1);
   if (
     course.lessons[body.number - 1].removes.length >=
-    course.lessons[body.number - 1].affirms.length
+      course.lessons[body.number - 1].affirms.length
   ) {
     course.lessons.splice(body.number - 1, 1);
   }
@@ -153,7 +178,7 @@ export async function createLesson(
   const lesson: Lesson = {
     title: body.title,
     type: body.type,
-    content: "",
+    content: lessonString,
     affirms: [author.id],
     removes: [],
   };

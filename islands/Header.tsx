@@ -9,7 +9,10 @@ export default function Header() {
     <header class="flex justify-between items-center py-6 px-4">
       <div class="text-dark-charcoal text-2xl font-bold">Wikicademy</div>
       <nav>
-        <ul class="flex space-x-4">
+        <ul class="flex space-x-4" style={
+          `
+          list-style-type: none;`
+        }>
           <li>
             <a href="/" class="text-teal hover:text-warm-beige">
               Home
@@ -33,7 +36,11 @@ export default function Header() {
                 </a>
               </li>
               <li>
-                <button onClick={logout} href="/signin" class="text-dark-charcoal hover:text-teal">
+                <button
+                  onClick={logout}
+                  href="/signin"
+                  class="text-dark-charcoal hover:text-teal"
+                >
                   Logout
                 </button>
               </li>
