@@ -160,4 +160,6 @@ class GitInterfaceImpl implements GitInterface {
 
 const gitInterface = new GitInterfaceImpl();
 
+// await gitInterface.wipeAllCourses();
+
 export default gitInterface;

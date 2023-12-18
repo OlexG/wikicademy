@@ -60,64 +60,6 @@ export default function EditCoursePage({ id }: { id: string }) {
       });
   }
 
-  function undoAffirm(number: number) {
-    setLoading(true);
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
-    fetch(`/api/courses?id=${id}&type=undoAffirm`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        email: user.email,
-        session: user.session,
-      },
-      body: JSON.stringify({ number }),
-    })
-      .then((res) => {
-        if (res.status === 400) {
-          setError("Something went wrong. Try again later.");
-        }
-        if (res.status === 401) {
-          setError("You are not authorized to undo an affirmation.");
-        }
-        if (res.status === 200) {
-          window.location.reload();
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setError(err.message);
-      });
-  }
-
-  function undoRemove(number: number) {
-    setLoading(true);
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
-    fetch(`/api/courses?id=${id}&type=undoRemove`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        email: user.email,
-        session: user.session,
-      },
-      body: JSON.stringify({ number }),
-    })
-      .then((res) => {
-        if (res.status === 400) {
-          setError("Something went wrong. Try again later.");
-        }
-        if (res.status === 401) {
-          setError("You are not authorized to undo a removal.");
-        }
-        if (res.status === 200) {
-          window.location.reload();
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setError(err.message);
-      });
-  }
-
   if (!course || loading) {
     return (
       <div className="animate-pulse w-full h-full text-center">Loading...</div>
@@ -149,42 +91,38 @@ export default function EditCoursePage({ id }: { id: string }) {
                   <span className="">Affirms: </span>
                   <span className="text-teal">{lesson.affirms.length}</span>
                 </p>
-                <p className="text-sm">
-                  <span className="">Removes: </span>
-                  <span className="text-teal">{lesson.removes.length}</span>
-                </p>
               </div>
               <div className="flex flex-row gap-4">
-                {lesson.affirms.includes(
+                {!lesson.affirms.includes(
                   JSON.parse(localStorage.getItem("user") || "{}").id
                 ) ? (
-                  <button
-                    className="text-white bg-gray-500 py-2 px-4 rounded-sm"
-                    onClick={() => undoAffirm(i + 1)}
-                  >
-                    Undo Affirm
-                  </button>
-                ) : (
                   <button
                     onClick={() => affirmLesson(i + 1)}
                     className="text-white bg-teal py-2 px-4 rounded-sm hover:bg-blue-700"
                   >
                     Affirm
                   </button>
+                ) : (
+                  <button
+                    disabled
+                    className="text-white bg-teal py-2 px-4 rounded-sm bg-gray-500"
+                  >
+                    Affirm
+                  </button>
                 )}
-                {lesson.removes.includes(
+                {!lesson.removes.includes(
                   JSON.parse(localStorage.getItem("user") || "{}").id
                 ) ? (
                   <button
-                    className="text-white bg-gray-500 py-2 px-4 rounded-sm"
-                    onClick={() => undoRemove(i + 1)}
+                    onClick={() => removeLesson(i + 1)}
+                    className="text-white bg-teal py-2 px-4 rounded-sm hover:bg-blue-700"
                   >
-                    Undo Remove
+                    Remove
                   </button>
                 ) : (
                   <button
-                    onClick={() => removeLesson(i + 1)}
-                    className="text-white bg-teal py-2 px-4 rounded-sm hover:bg-blue-700"
+                    disabled
+                    className="text-white bg-teal py-2 px-4 rounded-sm bg-gray-500"
                   >
                     Remove
                   </button>

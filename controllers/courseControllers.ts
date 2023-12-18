@@ -27,16 +27,10 @@ export async function handlePost(
     const res = await affirmLesson(req, courseId, author);
     return res;
   }
+
   if (type === "removeLesson") {
     const res = await removeLesson(req, courseId, author);
     return res;
-  }
-  if (type === "undoAffirm") {
-    const res = await undoAffirm(req, courseId, author);
-    return res;
-  }
-  if (type === "undoRemove") {
-    return undoRemove(req, courseId, author);
   }
   if (type === "editLesson") {
     return editLesson(req, courseId, author);
@@ -62,29 +56,6 @@ export async function editLesson(
   return new Response(JSON.stringify(course));
 }
 
-export async function affirmLesson(
-  req: Request,
-  courseId: string,
-  author: User,
-) {
-  const body = await req.json();
-  if (body.number === undefined) {
-    return new Response("Invalid course data", { status: 400 });
-  }
-  const course = await gitInterface.getCourse(courseId);
-  if (!course.lessons[body.number - 1]) {
-    return new Response("Invalid lesson number", { status: 400 });
-  }
-  if (course.lessons[body.number - 1].affirms.includes(author.id)) {
-    return new Response("Lesson already affirmed", { status: 400 });
-  }
-  course.lessons[body.number - 1].affirms.push(author.id);
-  console.log(course);
-  await gitInterface.updateCourse(course, author);
-  return new Response(JSON.stringify(course));
-}
-
-
 export async function removeLesson(
   req: Request,
   courseId: string,
@@ -98,22 +69,25 @@ export async function removeLesson(
   if (!course.lessons[body.number - 1]) {
     return new Response("Invalid lesson number", { status: 400 });
   }
-  if (course.lessons[body.number - 1].removes.includes(author.id)) {
-    return new Response("Lesson already removed", { status: 400 });
-  }
-  course.lessons[body.number - 1].removes.push(author.id);
   if (
-    course.lessons[body.number - 1].removes.length >=
-      course.lessons[body.number - 1].affirms.length
+    !course.lessons[body.number - 1].removes.includes(author.id)
   ) {
-    course.lessons.splice(body.number - 1, 1);
+    course.lessons[body.number - 1].affirms = course.lessons[body.number - 1]
+      .affirms.filter((id) => id !== author.id);
+    course.lessons[body.number - 1].removes.push(author.id);
+    if (
+      course.lessons[body.number - 1].affirms.length <=
+        course.lessons[body.number - 1].removes.length
+    ) {
+      course.lessons.splice(body.number - 1, 1);
+    }
   }
   console.log(course);
   await gitInterface.updateCourse(course, author);
   return new Response(JSON.stringify(course));
 }
 
-export async function undoAffirm(
+export async function affirmLesson(
   req: Request,
   courseId: string,
   author: User,
@@ -126,40 +100,13 @@ export async function undoAffirm(
   if (!course.lessons[body.number - 1]) {
     return new Response("Invalid lesson number", { status: 400 });
   }
-  const index = course.lessons[body.number - 1].affirms.indexOf(author.id);
-  if (index === -1) {
-    return new Response("Lesson not affirmed", { status: 400 });
-  }
-  course.lessons[body.number - 1].affirms.splice(index, 1);
   if (
-    course.lessons[body.number - 1].removes.length >=
-      course.lessons[body.number - 1].affirms.length
+    !course.lessons[body.number - 1].affirms.includes(author.id)
   ) {
-    course.lessons.splice(body.number - 1, 1);
+    course.lessons[body.number - 1].affirms.push(author.id);
+    course.lessons[body.number - 1].removes = course.lessons[body.number - 1]
+      .removes.filter((id) => id !== author.id);
   }
-  console.log(course);
-  await gitInterface.updateCourse(course, author);
-  return new Response(JSON.stringify(course));
-}
-
-export async function undoRemove(
-  req: Request,
-  courseId: string,
-  author: User,
-) {
-  const body = await req.json();
-  if (body.number === undefined) {
-    return new Response("Invalid course data", { status: 400 });
-  }
-  const course = await gitInterface.getCourse(courseId);
-  if (!course.lessons[body.number - 1]) {
-    return new Response("Invalid lesson number", { status: 400 });
-  }
-  const index = course.lessons[body.number - 1].removes.indexOf(author.id);
-  if (index === -1) {
-    return new Response("Lesson not removed", { status: 400 });
-  }
-  course.lessons[body.number - 1].removes.splice(index, 1);
   console.log(course);
   await gitInterface.updateCourse(course, author);
   return new Response(JSON.stringify(course));
@@ -179,7 +126,7 @@ export async function createLesson(
     title: body.title,
     type: body.type,
     content: lessonString,
-    affirms: [author.id],
+    affirms: [author.id, author.id],
     removes: [],
   };
   let course;
