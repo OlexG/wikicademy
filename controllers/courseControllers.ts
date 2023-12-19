@@ -82,7 +82,6 @@ export async function removeLesson(
       course.lessons.splice(body.number - 1, 1);
     }
   }
-  console.log(course);
   await gitInterface.updateCourse(course, author);
   return new Response(JSON.stringify(course));
 }

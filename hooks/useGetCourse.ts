@@ -4,8 +4,10 @@ import { useEffect } from "preact/hooks";
 
 export default function useGetCourse(id: string) {
   const [course, setCourse] = useState<Course | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [refresh, setRefresh] = useState(false);
+  const refreshCourse = () => setRefresh(!refresh);
   useEffect(() => {
     setLoading(true);
     const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -26,6 +28,6 @@ export default function useGetCourse(id: string) {
         console.log(err);
         setError("An error occurred while fetching the course.");
       });
-  }, []);
-  return { course, loading, error, setLoading, setCourse, setError };
+  }, [refresh]);
+  return { course, loading, error, setLoading, setCourse, setError, refreshCourse };
 }
