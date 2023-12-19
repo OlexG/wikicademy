@@ -1,4 +1,4 @@
-import { useEffect } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 export default function Signin({
   redirect,
@@ -7,19 +7,23 @@ export default function Signin({
   redirect: string;
   clientId: string;
 }) {
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const url = new URL(window.location.href);
     if (url.searchParams.get("code")) {
       // Send the code to google to get the token
+      setLoading(true);
       const code = url.searchParams.get("code");
       fetch(`/api/auth?code=${code}`)
         .then((res) => res.json())
-        .then((data) => {
+        .then(async (data) => {
           // Save to local storage and redirect to homepage
           if (data.error || !data.session) {
             // TODO: Show error message
           } else {
             localStorage.setItem("user", JSON.stringify(data));
+            setLoading(false);
             window.location.href = "/";
           }
         });
@@ -30,6 +34,10 @@ export default function Signin({
     const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirect}&response_type=code&scope=openid%20email%20profile`;
     window.location.href = url;
   };
+
+  if (loading) {
+    return <div className="animate-pulse w-full h-full text-center">Loading...</div>;
+  }
 
   return (
     <div className="w-screen h-full flex flex-col items-center justify-center gap-8">

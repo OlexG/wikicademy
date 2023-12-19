@@ -2,17 +2,21 @@ import { useEffect, useState } from "preact/hooks";
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const user = localStorage.getItem("user");
     if (user) {
       setIsLoggedIn(true);
     }
+    setLoading(false);
   }, []);
   const logout = () => {
     localStorage.removeItem("user");
     window.location.href = "/";
   };
-
+  if (loading) {
+    return <header class="flex justify-between items-center py-10 px-4 animate-pulse"/>
+  }
   return (
     <header class="flex justify-between items-center py-6 px-4">
       <div class="text-dark-charcoal text-2xl font-bold">Wikicademy</div>
@@ -22,7 +26,7 @@ export default function Header() {
           list-style-type: none;`
         }>
           <li>
-            <a href="/" class="text-teal hover:text-warm-beige">
+            <a href="/" class="text-dark-charcoal hover:text-teal">
               Home
             </a>
           </li>
