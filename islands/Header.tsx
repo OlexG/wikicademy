@@ -38,7 +38,6 @@ export default function Header() {
               About
             </a>
           </li>
-          (
           {!loading && isLoggedIn ? (
             <>
               <li>
@@ -65,7 +64,6 @@ export default function Header() {
               </a>
             </li>
           )}
-          )
         </ul>
       </nav>
     </header>
