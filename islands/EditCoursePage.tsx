@@ -1,8 +1,8 @@
+import Loading from "../components/Loading.tsx";
 import useGetCourse from "../hooks/useGetCourse.ts";
 
 export default function EditCoursePage({ id }: { id: string }) {
-  const { course, loading, setLoading, setError, setCourse } =
-    useGetCourse(id);
+  const { course, loading, setLoading, setError, setCourse } = useGetCourse(id);
   function affirmLesson(number: number) {
     setLoading(true);
     setLoading(true);
@@ -63,9 +63,7 @@ export default function EditCoursePage({ id }: { id: string }) {
   }
 
   if (!course || loading) {
-    return (
-      <div className="animate-pulse w-full h-full text-center">Loading...</div>
-    );
+    return <Loading />;
   }
   return (
     <div className="p-10">
@@ -91,7 +89,9 @@ export default function EditCoursePage({ id }: { id: string }) {
                 </p>
                 <p className="text-sm">
                   <span className="">Affirms: </span>
-                  <span className="text-teal">{lesson.affirms.length}</span>
+                  <span className="text-teal">
+                    {lesson.affirms.length - lesson.removes.length}
+                  </span>
                 </p>
               </div>
               <div className="flex flex-row gap-4">
@@ -107,7 +107,7 @@ export default function EditCoursePage({ id }: { id: string }) {
                 ) : (
                   <button
                     disabled
-                    className="text-white bg-teal py-2 px-4 rounded-sm bg-gray-500"
+                    className="text-white py-2 px-4 rounded-sm bg-gray-500 opacity-70"
                   >
                     Affirm
                   </button>
@@ -124,7 +124,7 @@ export default function EditCoursePage({ id }: { id: string }) {
                 ) : (
                   <button
                     disabled
-                    className="text-white bg-teal py-2 px-4 rounded-sm bg-gray-500"
+                    className="text-white py-2 px-4 rounded-sm bg-gray-500 opacity-70"
                   >
                     Remove
                   </button>

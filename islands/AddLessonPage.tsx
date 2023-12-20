@@ -1,6 +1,7 @@
 import { useEffect, useState } from "preact/hooks";
 import { Course, LessonType } from "../types/course.ts";
 import useGetCourse from "../hooks/useGetCourse.ts";
+import Loading from "../components/Loading.tsx";
 interface Props {
   id: string;
 }
@@ -61,16 +62,14 @@ export default function AddLessonPage({ id }: Props) {
     }
     if (number > course?.lessons?.length + 1) {
       setError(
-        "The lesson number cannot be greater than the number of lessons."
+        "The lesson number cannot be greater than the number of lessons.",
       );
       return;
     }
     setNumber(number);
   }
   if (loading) {
-    return (
-      <div className="animate-pulse w-full h-full text-center">Loading...</div>
-    );
+    return <Loading />;
   }
   return (
     <div className="h-full flex flex-row items-center justify-center">

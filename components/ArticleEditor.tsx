@@ -1,6 +1,7 @@
 import { Parser, HtmlRenderer } from "https://esm.sh/commonmark@0.30.0";
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { Course, Lesson } from "../types/course.ts";
+import Loading from "./Loading.tsx";
 
 export default function ArticleEditor({
   lesson,
@@ -15,8 +16,14 @@ export default function ArticleEditor({
   const [error, setError] = useState("");
   const [markdown, setMarkdown] = useState(lesson.content);
   const [rendered, setRendered] = useState<any>("");
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    createMarkup(markdown);
+  }, [markdown]);
+
   // Function to handle the submission of changes
   const handleSubmit = () => {
+    setLoading(true);
     const user = JSON.parse(localStorage.getItem("user") || "{}");
     fetch(`/api/courses?id=${course.id}&type=editLesson`, {
       method: "POST",
@@ -38,10 +45,12 @@ export default function ArticleEditor({
       })
       .then((res) => res.json())
       .then((data: Course) => {
-        window.location.reload();
+        // Send to edit course page
+        window.location.href = `/courses/${data.id}/edit`;
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false);
         setError("Something went wrong. Check your inputs and try again.");
       });
   };
@@ -55,19 +64,20 @@ export default function ArticleEditor({
     setRendered({ __html: html });
   };
 
-  function previewChanges() {
-    createMarkup(markdown);
+  if (!course || loading) {
+    return <Loading />;
   }
 
   return (
     <div className="flex flex-col h-full items-center w-screen py-10">
       <div className="flex flex-1 px-10 gap-2 w-full">
         <textarea
-          className="w-1/2 h-full p-2 border border-black" // Added border and padding for highlighting
+          className="w-1/2 h-full p-2 border border-black rounded" // Added border and padding for highlighting
           value={markdown}
           onChange={(e) => setMarkdown((e?.target as any).value)}
+          onInput={(e) => setMarkdown((e?.target as any).value)}
         />
-        <div className="flex-1 p-4 border border-black">
+        <div className="flex-1 p-4 border border-black rounded">
           <div
             className="markdown-preview"
             dangerouslySetInnerHTML={rendered}
@@ -80,12 +90,6 @@ export default function ArticleEditor({
           className="p-2 mt-2 bg-blue-500 text-white rounded w-40"
         >
           Submit Changes
-        </button>
-        <button
-          onClick={previewChanges}
-          className="p-2 mt-2 bg-blue-500 text-white rounded w-40"
-        >
-          Preview Changes
         </button>
       </div>
     </div>

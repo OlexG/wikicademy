@@ -1,12 +1,11 @@
+import Loading from "../components/Loading.tsx";
 import useGetCourse from "../hooks/useGetCourse.ts";
 
 export default function ViewCoursePage({ id }: { id: string }) {
   const { course, loading } = useGetCourse(id);
 
   if (!course || loading) {
-    return (
-      <div className="animate-pulse w-full h-full text-center">Loading...</div>
-    );
+    return <Loading />;
   }
   return (
     <div className="p-10">

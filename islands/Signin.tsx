@@ -1,4 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
+import Loading from "../components/Loading.tsx";
 
 export default function Signin({
   redirect,
@@ -36,7 +37,7 @@ export default function Signin({
   };
 
   if (loading) {
-    return <div className="animate-pulse w-full h-full text-center">Loading...</div>;
+    return <Loading />;
   }
 
   return (
@@ -45,9 +46,7 @@ export default function Signin({
         Log in to <span className="text-teal">Wikicademy</span>
       </h1>
       {!clientId || !redirect ? (
-        <div className="animate-pulse w-full h-full text-center">
-          Loading...
-        </div>
+        <Loading />
       ) : (
         <button
           className="mx-auto text-center bg-teal hover:bg-blue-700 text-white py-2 px-4 rounded-sm"

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "preact/hooks";
 import { Course } from "../types/course.ts";
 import useGetCourse from "../hooks/useGetCourse.ts";
+import Loading from "../components/Loading.tsx";
 
 interface Props {
   id: string;
@@ -10,7 +11,7 @@ export default function CoursePage({ id }: Props) {
   const { loading, course } = useGetCourse(id);
   return (
     <div className="flex flex-col items-center justify-center h-full">
-      {loading && <div>Loading...</div>}
+      {loading && <Loading />}
       {!loading && course && (
         <div className="flex flex-col items-center justify-center gap-4">
           <h1 className="text-2xl">{course.name}</h1>
