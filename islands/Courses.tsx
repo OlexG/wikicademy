@@ -22,6 +22,7 @@ export default function Courses() {
         setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       });
   }, []);

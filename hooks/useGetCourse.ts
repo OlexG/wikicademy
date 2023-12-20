@@ -26,6 +26,7 @@ export default function useGetCourse(id: string) {
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false);
         setError("An error occurred while fetching the course.");
       });
   }, [refresh]);
