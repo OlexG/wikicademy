@@ -17,12 +17,14 @@ export default function CoursePage({ id }: Props) {
           <h1 className="text-2xl">{course.name}</h1>
           <p className="text-lg">{course.description}</p>
           <div className="flex flex-row gap-4 mt-4">
-            <a
-              className="bg-teal hover:bg-blue-700 text-white py-2 px-4 rounded-sm"
-              href={`/courses/${course.id}/edit`}
-            >
-              Edit Course
-            </a>
+            {localStorage.getItem("user") && (
+              <a
+                className="bg-teal hover:bg-blue-700 text-white py-2 px-4 rounded-sm"
+                href={`/courses/${course.id}/edit`}
+              >
+                Edit Course
+              </a>
+            )}
             <a
               className="bg-teal hover:bg-blue-700 text-white py-2 px-4 rounded-sm"
               href={`/courses/${course.id}/view`}

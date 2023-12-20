@@ -1,8 +1,5 @@
 import { HandlerContext } from "$fresh/server.ts";
-import {
-  getCourse,
-  handlePost,
-} from "../../controllers/courseControllers.ts";
+import { getCourse, handlePost } from "../../controllers/courseControllers.ts";
 import users from "../../db/users.ts";
 
 export const handler = async (
@@ -10,6 +7,11 @@ export const handler = async (
   _ctx: HandlerContext,
 ): Promise<Response> => {
   const requestMethod = req.method;
+  if (requestMethod === "GET") { // Get methods are public
+    const result = await getCourse(req);
+    return result;
+  }
+
   const email = req.headers.get("email");
   const session = req.headers.get("session");
   if (!email || !session) {
@@ -24,10 +26,6 @@ export const handler = async (
     return new Response("Invalid user data", { status: 401 });
   }
   switch (requestMethod) {
-    case "GET": {
-      const result = await getCourse(req);
-      return result;
-    }
     case "POST": {
       const result = await handlePost(req, user);
       return result;
