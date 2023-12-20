@@ -3,34 +3,35 @@ import useGetCourse from "../hooks/useGetCourse.ts";
 
 export default function EditCoursePage({ id }: { id: string }) {
   const { course, loading, setLoading, setError, setCourse } = useGetCourse(id);
-  function affirmLesson(number: number) {
-    setLoading(true);
-    setLoading(true);
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
-    fetch(`/api/courses?id=${id}&type=affirmLesson`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        email: user.email,
-        session: user.session,
-      },
-      body: JSON.stringify({ number }),
-    })
-      .then((res) => {
-        if (res.status === 400) {
-          setError("Something went wrong. Try again later.");
-        }
-        if (res.status === 401) {
-          setError("You are not authorized to affirm a lesson.");
-        }
-        if (res.status === 200) {
-          window.location.reload();
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setError(err.message);
+  async function affirmLesson(number: number) {
+    try {
+      setLoading(true);
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      const res = await fetch(`/api/courses?id=${id}&type=affirmLesson`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          email: user.email,
+          session: user.session,
+        },
+        body: JSON.stringify({ number }),
       });
+      if (res.status === 400) {
+        setError("Something went wrong. Try again later.");
+      }
+      if (res.status === 401) {
+        setError("You are not authorized to affirm a lesson.");
+      }
+      if (res.status === 200) {
+        const course = await res.json();
+        setCourse(course);
+        setLoading(false);
+      }
+    } catch (err) {
+      setLoading(false);
+      console.log(err);
+      setError(err.message);
+    }
   }
   async function removeLesson(number: number) {
     setLoading(true);
@@ -57,6 +58,7 @@ export default function EditCoursePage({ id }: { id: string }) {
         setLoading(false);
       }
     } catch (err) {
+      setLoading(false);
       console.log(err);
       setError(err.message);
     }
